@@ -152,6 +152,7 @@ print(diabetes_notes_retinopathy.count())
 ```
 Para validar que nuestras funciones estén obteniendo bien la información de hace el uso del segundo link el cual se nos fue proporcionado para la validación de estas notas médicas.
 ```python
+
 # Con el link antes mencionado de validación se crean los DataFrame para cada patología 
 datos_verificacion = pd.read_csv("https://raw.githubusercontent.com/hhsieh2416/Identify_Diabetic_Complications/main/data/glodstandrad.csv")
 datos_verificacion_neuropathy = datos_verificacion[datos_verificacion['DIABETIC_NEUROPATHY']==1][['NOTE_ID','DIABETIC_NEUROPATHY']]
@@ -163,40 +164,59 @@ print(datos_verificacion_nephropathy.count())
 datos_verificacion_retinopathy = datos_verificacion[datos_verificacion['DIABETIC_RETINOPATHY']==1][['NOTE_ID','DIABETIC_RETINOPATHY']]
 print(datos_verificacion_retinopathy)
 print(datos_verificacion_retinopathy.count())
+
+
 # Realizamos joins de nuestros DataFrame con las tablas de validación
+
 ver_neuro = pd.merge(datos_verificacion_neuropathy, diabetes_notes_neuropathy, how = 'outer', on = 'NOTE_ID', indicator=True)
 print(ver_neuro)
 ver_nephro = pd.merge(datos_verificacion_nephropathy, diabetes_notes_nephropathy, how = 'outer', on = 'NOTE_ID', indicator=True)
 print(ver_nephro)
 ver_retino = pd.merge(datos_verificacion_retinopathy, diabetes_notes_retinopathy, how = 'outer', on = 'NOTE_ID', indicator=True)
 print(ver_retino)
+
 # Se realizan los conteos
+
+
 conteo_na_neuro_falso_positivo = ver_neuro['DIABETIC_NEUROPATHY'].isna().sum()
 conteo_na_nephro_falso_positivo = ver_nephro['DIABETIC_NEPHROPATHY'].isna().sum()
 conteo_na_retino_falso_positivo = ver_retino['DIABETIC_RETINOPATHY'].isna().sum()
 print('Pacientes sin complicaciones pero que si se identifican: ', conteo_na_neuro_falso_positivo+conteo_na_nephro_falso_positivo+conteo_na_retino_falso_positivo)
+
+
 conteo_na_neuro_falso_negativo = ver_neuro['COMPLICATIONS'].isna().sum()
 conteo_na_nephro_falso_negativo = ver_nephro['COMPLICATIONS'].isna().sum()
 conteo_na_retino_falso_negativo = ver_retino['COMPLICATIONS'].isna().sum()
 print('Pacientes con complicaciones que no fueron detectados: ', conteo_na_neuro_falso_negativo + conteo_na_nephro_falso_negativo + conteo_na_retino_falso_negativo)
+
+
 conteo_correcto_neuro = len(ver_neuro[ver_neuro['_merge'] == 'both'])
 conteo_correcto_nephro = len(ver_nephro[ver_nephro['_merge'] == 'both'])
 conteo_correcto_retino = len(ver_retino[ver_retino['_merge'] == 'both'])
 print('Pacientes que tienen complicaciones diabetes que si se encontaron: ', conteo_correcto_nephro+conteo_correcto_neuro+conteo_correcto_retino)
+
+
 conteo_complicacion_neuro = len( ver_neuro[ver_neuro['DIABETIC_NEUROPATHY'] == 1] )
 conteo_complicacion_nephro = len( ver_nephro[ver_nephro['DIABETIC_NEPHROPATHY'] == 1] ) 
 conteo_complicacion_retino = len( ver_retino[ver_retino['DIABETIC_RETINOPATHY'] == 1] ) 
 print('Pacientes que tienen complicaciones diabeticas: ', conteo_complicacion_neuro +conteo_complicacion_nephro + conteo_complicacion_retino )
+
+
+
 cor_neuro = datos_verificacion[['NOTE_ID', 'DIABETIC_NEUROPATHY']].merge(diabetes_notes_neuropathy[['NOTE_ID','COMPLICATIONS']], how='outer',  on='NOTE_ID', indicator=True )
 cor_neuro['COMPLICATIONS'] = cor_neuro['COMPLICATIONS'].map(d_neuro).fillna(0)
 print('---NEUROPATHY---')
 print(cor_neuro)
 print(classification_report(cor_neuro['DIABETIC_NEUROPATHY'].tolist(), cor_neuro['COMPLICATIONS'].tolist()))
+
+
 cor_nephro = datos_verificacion[['NOTE_ID', 'DIABETIC_NEPHROPATHY']].merge(diabetes_notes_nephropathy[['NOTE_ID','COMPLICATIONS']], how='outer',  on='NOTE_ID', indicator=True )
 cor_nephro['COMPLICATIONS'] = cor_nephro['COMPLICATIONS'].map(d_nephro).fillna(0)
 print('---NEPHROPATHY---')
 print(cor_nephro)
 print(classification_report(cor_nephro['DIABETIC_NEPHROPATHY'].tolist(), cor_nephro['COMPLICATIONS'].tolist()))
+
+
 cor_retino = datos_verificacion[['NOTE_ID', 'DIABETIC_RETINOPATHY']].merge(diabetes_notes_retinopathy[['NOTE_ID','COMPLICATIONS']], how='outer',  on='NOTE_ID', indicator=True )
 cor_retino['COMPLICATIONS'] = cor_retino['COMPLICATIONS'].map(d_retino).fillna(0)
 print('---RETINOPATHY---')
