@@ -12,9 +12,13 @@ Y los datos para su validación se encuentran en el siguiente link:
 En el siguiente trabajo se obtuvieron los siguientes resultados:
 
   Pacientes sin complicaciones pero que si se identifican:  5
+  
   Pacientes con complicaciones que no fueron detectados:  13
+  
   Pacientes que tienen complicaciones diabetes que si se encontaron:  15
+  
   Pacientes que tienen complicaciones diabeticas:  28
+
 
 Los cuales se obtienen con el código:
 
