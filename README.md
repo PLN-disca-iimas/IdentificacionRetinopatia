@@ -2,7 +2,7 @@
 ## Identificación de retinopatías
 
 
-El Propósito del siguiente trabajo es identificar los pacientes que tienen complicaciones diabéticas, como lo son la neuropatía, nefropatía y retinopatía de notas médicas. Es el trabajo final del curso Clinical Natural Language Processing impartido en Coursera. Las notas medicas se encuentran en el siguiente link para el entrenamiento del modelo:
+El Propósito del siguiente trabajo es identificar los pacientes que tienen complicaciones diabéticas, como lo son la neuropatía, nefropatía y retinopatía de notas médicas. Las notas medicas se encuentran en el siguiente link para el entrenamiento del modelo:
 
   https://raw.githubusercontent.com/hhsieh2416/Identify_Diabetic_Complications/main/data/diabetes_notes.csv
   
